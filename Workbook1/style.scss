@@ -1,0 +1,85 @@
+
+$accent-color: #e67e22;
+$main-dark: #2c3e50;
+$gray-text: #95a5a6;
+$bg-card: #ffffff;
+$shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+@mixin button-style($color) {
+  padding: 12px 24px;
+  background-color: $color;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken($color, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba($color, 0.3);
+  }
+}
+
+body {
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.product-card {
+  background: $bg-card;
+  width: 320px;
+  border-radius: 15px;
+  box-shadow: $shadow;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: 20px;
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    color: $main-dark;
+    margin: 0 0 10px 0;
+  }
+
+  &__description {
+    font-size: 0.95rem;
+    color: $gray-text;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: $accent-color;
+    }
+
+    .btn-action {
+      @include button-style($accent-color); 
+    }
+  }
+}
