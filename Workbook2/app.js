@@ -21,7 +21,6 @@ app.get('/products', (req, res) => {
 
 // Получить по ID
 app.get('/products/:id', (req, res) => {
-    // Называем переменную по-другому, например 'item'
     let item = products.find(u => u.id == req.params.id); 
     if (item) {
         res.json(item);
@@ -50,14 +49,13 @@ app.patch('/products/:id', (req, res) => {
     if (!item) return res.status(404).send("Not found");
 
     if (name !== undefined) item.name = name;
-    if (price !== undefined) item.price = price; // тут было age = age
+    if (price !== undefined) item.price = price; 
 
     res.json(item);
 });
 
 // Удалить
 app.delete('/products/:id', (req, res) => {
-    // Перезаписываем глобальный массив products
     products = products.filter(p => p.id != req.params.id);
     res.send('Ok');
 });
