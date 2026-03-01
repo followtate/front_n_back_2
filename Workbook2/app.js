@@ -10,6 +10,7 @@ let products = [
 
 app.use(express.json());
 
+//основная страница
 app.get('/', (req, res) => {
     res.send('Main page');
 });
