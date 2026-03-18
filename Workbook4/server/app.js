@@ -1,13 +1,30 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require('path');
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 require('swagger-ui-express');
+
 app.use(cors()); 
 app.use(express.json());
 
+const fs = require('fs');
+
+
+const publicPath = path.resolve(__dirname, '..', 'public');
+
+console.log("Путь к статике:", publicPath);
+if (!fs.existsSync(publicPath)) {
+    console.error("ОШИБКА: Папка public не найдена по этому адресу!");
+}
+
+app.use('/public', express.static(publicPath, {
+    setHeaders: (res) => {
+        res.set('Access-Control-Allow-Origin', '*'); // На всякий случай для Safari
+    }
+}));
 
 const swaggerOptions = {
   definition: {
@@ -24,7 +41,7 @@ const swaggerOptions = {
       },
     ],
   },
-  // Указываем путь к файлам с JSDoc аннотациями
+
   apis: ['./server/app.js'], 
 };
 
@@ -70,16 +87,16 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  */
 
 let flowers = [
-    { id: 1, name: "Роза Красная", category: "Розы", price: 150, count: 10, description: "Классика" },
-    { id: 2, name: "Лилия Белая", category: "Лилии", price: 250, count: 5, description: "Ароматная" },
-    { id: 3, name: "Тюльпан", category: "Тюльпаны", price: 80, count: 50, description: "Весенний" },
-    { id: 4, name: "Хризантема", category: "Хризантемы", price: 120, count: 20, description: "Осенняя" },
-    { id: 5, name: "Орхидея", category: "Орхидеи", price: 900, count: 3, description: "Экзотика" },
-    { id: 6, name: "Пион", category: "Пионы", price: 350, count: 12, description: "Пышный" },
-    { id: 7, name: "Ромашка", category: "Полевые", price: 50, count: 100, description: "Простая" },
-    { id: 8, name: "Гвоздика", category: "Гвоздики", price: 70, count: 40, description: "Стойкая" },
-    { id: 9, name: "Ирис", category: "Ирисы", price: 110, count: 15, description: "Синий" },
-    { id: 10, name: "Гортензия", category: "Гортензии", price: 400, count: 8, description: "Голубая" }
+    { id: 1, name: "Роза Красная", category: "Розы", price: 150, count: 10, description: "Классика" , image: "/public/images/RED_ROSE.jpg",},
+    { id: 2, name: "Лилия Белая", category: "Лилии", price: 250, count: 5, description: "Ароматная" ,image: "/public/images/LILY_WHITE.jpg",},
+    { id: 3, name: "Тюльпан", category: "Тюльпаны", price: 80, count: 50, description: "Весенний" ,image: "/public/images/TULIP_YELLOW.jpg",},
+    { id: 4, name: "Хризантема", category: "Хризантемы", price: 120, count: 20, description: "Осенняя",image: "/public/images/CHRYSANTHEMUM.jpg", },
+    { id: 5, name: "Орхидея", category: "Орхидеи", price: 900, count: 3, description: "Экзотика",image: "/public/images/ORCHID.jpg",},
+    { id: 6, name: "Пион", category: "Пионы", price: 350, count: 12, description: "Пышный" ,image: "/public/images/PEONY.jpg",},
+    { id: 7, name: "Ромашка", category: "Полевые", price: 50, count: 100, description: "Простая" ,image: "/public/images/CHAMOMILE.jpg",},
+    { id: 8, name: "Гвоздика", category: "Гвоздики", price: 70, count: 40, description: "Стойкая",image: "/public/images/CARNATION.jpg", },
+    { id: 9, name: "Ирис", category: "Ирисы", price: 110, count: 15, description: "Синий" ,image: "/public/images/IRIS.jpg",},
+    { id: 10, name: "Гортензия", category: "Гортензии", price: 400, count: 8, description: "Голубая" ,image: "/public/images/HYDRANGEA.jpg",}
 ];
 /**
  * @swagger
