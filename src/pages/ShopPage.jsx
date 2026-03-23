@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ShoppingCart, Info, Flower, Plus } from 'lucide-react';
 import { api } from "../api/index";
+import ImageModal from "../components/imageModal";
 import './/ShopPage.scss';
 
 
@@ -57,6 +58,8 @@ const ShopPage = () => {
               <img 
                 src={item.image.startsWith('http') ? item.image : `http://localhost:5001${item.image}`} 
                 alt={item.name} 
+                onClick = {() => setSelectedImage(item.image)}
+                style={{ cursor: 'pointer'}}
                 className="productCard__image" 
               />
               <div className="productCard__content">
@@ -75,7 +78,12 @@ const ShopPage = () => {
           ))}
         </div>
       </main>
-    
+          {selectedImage && (
+          <ImageModal 
+          imageUrl={selectedImage.startsWith('http') ? selectedImage : `http://localhost:5001${selectedImage}`} 
+          onClose={() => setSelectedImage(null)} 
+          />
+)}
     </div>
   );
 };

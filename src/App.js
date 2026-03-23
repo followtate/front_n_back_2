@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import AdminPage from "./pages/AdminPage";
 import ShopPage from "./pages/ShopPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage"
 
 function App() {
     return (
@@ -11,7 +13,9 @@ function App() {
                 {}
                 <Route path="/" element={<Navigate to="/shop" replace />} />           
                 <Route path="/shop" element={<ShopPage/>} />
-                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/admin" element={<AdminPage />}/>
+                <Route path="/login" element={<LoginPage />}/>
+                <Route path="/register" element={<RegisterPage />}/>
                  </Routes>
                  </Router>
     );
