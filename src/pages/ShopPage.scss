@@ -1,25 +1,22 @@
+/* 1. VARIABLES & MIXINS */
 $bg: #0b0f19;
-$panel: rgba(255, 255, 255, 0.03);
 $border: rgba(255, 255, 255, 0.10);
-$text: #e7eaf3;
 $primary: rgba(99, 102, 241, 0.55);
 $primaryBg: rgba(99, 102, 241, 0.18);
-$danger: rgba(239, 68, 68, 0.45);
-$dangerBg: rgba(239, 68, 68, 0.12);
-$success: rgba(34, 197, 94, 0.45);
-$successBg: rgba(34, 197, 94, 0.12);
+$text: #e7eaf3;
 
-@mixin card($radius: 12px) {
-  border-radius: $radius;
-  border: 1px solid $border;
-  background: $panel;
-  backdrop-filter: blur(10px);
+@mixin container($w: 1200px) {
+  max-width: $w !important;
+  width: 100% !important;
+  margin: 0 auto !important; 
+  padding: 0 24px !important;
 }
 
-@mixin container($w: 1100px) {
-  max-width: $w;
-  width: 100%;
-  margin: 0 auto;
+/* 2. GLOBAL RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .page {
@@ -27,93 +24,131 @@ $successBg: rgba(34, 197, 94, 0.12);
   background: $bg;
   color: $text;
   font-family: system-ui, -apple-system, sans-serif;
-}
-
-
-.shopGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
-}
-
-
-.productCard {
-  @include card(16px);
-  overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s ease;
   display: flex;
   flex-direction: column;
+}
+
+/* 3. HEADER (The "Small Cart" Fix) */
+.header {
+  height: 70px !important;
+  width: 100% !important;
+  background: #0b0f19 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  &__inner {
+    @include container();
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 100% !important;
+  }
+}
+
+.brand {
+  flex: 0 0 auto !important; 
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #818cf8 !important;
+  white-space: nowrap !important;
+}
+
+/* 4. BUTTONS (Global Style) */
+.btn {
+  flex: 0 0 auto !important; 
+  width: fit-content !important; 
+  padding: 8px 20px !important;
+  height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: $primaryBg !important;
+  border: 1px solid $primary !important;
+  border-radius: 10px !important;
+  color: white !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  transition: 0.2s;
 
   &:hover {
-    transform: translateY(-40px);
+    background: $primary !important;
+  }
+}
+
+/* 5. MAIN CONTENT & GRID (The "Fixed Grid" Fix) */
+.container {
+  @include container();
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.shopGrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 30px !important;
+}
+
+/* 6. CARDS */
+.productCard {
+  border: 1px solid $border;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-8px);
     border-color: $primary;
   }
 
   &__image {
     width: 100%;
-    height: 200px;
-    background: rgba(255,255,255,0.02);
+    height: 220px;
     object-fit: cover;
-    border-bottom: 1px solid $border;
+    background: #000;
   }
 
   &__content {
-    padding: 16px;
+    padding: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
   }
 
   &__title {
-    margin: 0;
     font-size: 18px;
     font-weight: 600;
+    margin: 0;
   }
 
   &__price {
-    font-size: 20px;
-    color: #818cf8; 
+    color: #818cf8;
     font-weight: 700;
-    margin-bottom: 10px;
+    font-size: 18px;
   }
 }
-
-
-.btn {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s;
-
-  &--primary { 
-    background: $primaryBg; 
-    border: 1px solid $primary;
-    &:hover { background: $primary; color: white; }
-  }
-  
-  &--success {
-    background: $successBg;
-    border: 1px solid $success;
-    &:hover { background: $success; color: white; }
-  }
-}
-
 
 .badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   background: rgba(255,255,255,0.05);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
   border: 1px solid $border;
 }

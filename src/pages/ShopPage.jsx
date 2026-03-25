@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ShoppingCart, Info, Flower, Plus } from 'lucide-react';
 import { api } from "../api/index";
 import ImageModal from "../components/imageModal";
-import './/ShopPage.scss';
+import './ShopPage.scss';
 
 
 const ShopPage = () => {

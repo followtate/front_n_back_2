@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./AdminPage.css"; 
+import "./AdminPage.scss"; 
 import FlowerList from "../components/flowerList";
 import FlowerModal from "../components/flowerModal";
 import { api } from "../api/index";

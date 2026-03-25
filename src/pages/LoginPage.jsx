@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock } from 'lucide-react';
-import { api } from "../api/index"; // We keep the API logic in its own file
+import { api } from "../api/index"; 
 import './LoginPage.scss';
 
 const LoginPage = () => {
@@ -16,14 +16,13 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            // This calls your new bcrypt-powered backend
+           
             const response = await api.loginUser(form);
             console.log("Login Success:", response);
             
-            // If successful, go to the shop
             navigate('/shop'); 
         } catch (err) {
-            // Handle "User not found" or "Invalid credentials" from backend
+           
             setError(err.response?.data?.message || "Ошибка входа. Проверьте данные.");
         } finally {
             setLoading(false);

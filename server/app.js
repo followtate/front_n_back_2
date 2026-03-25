@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = "secret"
 const express = require("express");
 const cors = require("cors");
 const path = require('path');
@@ -11,6 +12,19 @@ const fs = require('fs');
 const app = express();
 app.use(cors()); 
 app.use(express.json());
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
+
+    if (!token) return res.status(401).json({ message: "Please log in first" });
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ message: "Session expired or invalid" });
+        req.user = user; 
+        next(); // Proceed to the actual route (e.g., deleting a flower)
+    });
+};
 
 const publicPath = path.resolve(__dirname, '..', 'public')
 app.use('/public', express.static(publicPath));
@@ -45,17 +59,26 @@ let users = [];
 
 // REGISTER: 
 app.post("/api/register", async (req, res) => {
+    console.log("1. Request received:", req.body); // Check if data arrives
     try {
         const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.status(400).json({ message: "Missing username or password" });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = { 
-            id: nanoid(), 
-            username, 
-            password: hashedPassword 
-        };
+        console.log("2. Password hashed");
+
+        const newUser = { id: nanoid(), username, password: hashedPassword };
         users.push(newUser);
+        
+        console.log("3. User saved. Total users:", users.length);
         res.status(201).json({ message: "User created", id: newUser.id });
-    } catch (e) { res.status(500).json({ error: "Fail" }); }
+    } catch (e) { 
+        console.error("SYSTEM ERROR:", e); // This prints the REAL error in your VS Code terminal
+        res.status(500).json({ message: e.message }); 
+    }
 });
 
 // LOGIN:
@@ -66,7 +89,8 @@ app.post("/api/login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-        res.json({ message: "Success", user: { id: user.id, username: user.username } });
+        const token = jwt.sign({ id: user.id, username: user.password}, JWT_SECRET, { expiresIn: '12h' });
+        res.json({ token, user: { id: user.id, username: user.username } });
     } else {
         res.status(401).json({ message: "Invalid credentials" });
     }
@@ -76,7 +100,7 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/flowers", (req, res) => res.json(flowers));
 
 // CREATE FLOWER: 
-app.post("/api/flowers", (req, res) => {
+app.post("/api/flowers", authenticateToken,(req, res) => {
     const newFlower = { 
         ...req.body, 
         id: nanoid() 
@@ -86,7 +110,7 @@ app.post("/api/flowers", (req, res) => {
 });
 
 // DELETE FLOWER: 
-app.delete("/api/flowers/:id", (req, res) => {
+app.delete("/api/flowers/:id",authenticateToken, (req, res) => {
     const { id } = req.params;
     flowers = flowers.filter(f => f.id !== id);
     res.sendStatus(204);

@@ -4,6 +4,14 @@ const apiClient = axios.create({
     baseURL: "http://localhost:5001/api",
 });
 
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
 export const api = {
     getFlowers: async () => {
         const res = await apiClient.get("/flowers");
@@ -30,7 +38,14 @@ export const api = {
         return res.data;
     },
     loginUser: async(credentials) => {
-        const res = await apiClient.post(`/login` , credentials);
+        const res = await apiClient.post(`/login`, credentials);
+        if (res.data.token) {
+            localStorage.setItem("token", res.data.token);
+        }
         return res.data;
-    }
+    },
+    logout: () => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+    },
 };
