@@ -8,7 +8,11 @@ $text: #e7eaf3;
 @mixin container($w: 1200px) {
   max-width: $w !important;
   width: 100% !important;
+<<<<<<< HEAD
   margin: 0 auto !important;
+=======
+  margin: 0 auto !important; 
+>>>>>>> 7cf8fb48272148dcc2c81ba0d57d597dfcda47d5
   padding: 0 24px !important;
 }
 
@@ -51,7 +55,11 @@ $text: #e7eaf3;
 }
 
 .brand {
+<<<<<<< HEAD
   flex: 0 0 auto !important;
+=======
+  flex: 0 0 auto !important; 
+>>>>>>> 7cf8fb48272148dcc2c81ba0d57d597dfcda47d5
   font-size: 22px !important;
   font-weight: 800 !important;
   color: #818cf8 !important;
@@ -60,8 +68,13 @@ $text: #e7eaf3;
 
 /* 4. BUTTONS (Global Style) */
 .btn {
+<<<<<<< HEAD
   flex: 0 0 auto !important;
   width: fit-content !important;
+=======
+  flex: 0 0 auto !important; 
+  width: fit-content !important; 
+>>>>>>> 7cf8fb48272148dcc2c81ba0d57d597dfcda47d5
   padding: 8px 20px !important;
   height: 40px !important;
   display: inline-flex !important;
@@ -146,7 +159,11 @@ $text: #e7eaf3;
 }
 
 .badge {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.05);
+=======
+  background: rgba(255,255,255,0.05);
+>>>>>>> 7cf8fb48272148dcc2c81ba0d57d597dfcda47d5
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
