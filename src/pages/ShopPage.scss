@@ -1,0 +1,154 @@
+/* 1. VARIABLES & MIXINS */
+$bg: #0b0f19;
+$border: rgba(255, 255, 255, 0.10);
+$primary: rgba(99, 102, 241, 0.55);
+$primaryBg: rgba(99, 102, 241, 0.18);
+$text: #e7eaf3;
+
+@mixin container($w: 1200px) {
+  max-width: $w !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+}
+
+/* 2. GLOBAL RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  min-height: 100vh;
+  background: $bg;
+  color: $text;
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3. HEADER (The "Small Cart" Fix) */
+.header {
+  height: 70px !important;
+  width: 100% !important;
+  background: #0b0f19 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  &__inner {
+    @include container();
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 100% !important;
+  }
+}
+
+.brand {
+  flex: 0 0 auto !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #818cf8 !important;
+  white-space: nowrap !important;
+}
+
+/* 4. BUTTONS (Global Style) */
+.btn {
+  flex: 0 0 auto !important;
+  width: fit-content !important;
+  padding: 8px 20px !important;
+  height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: $primaryBg !important;
+  border: 1px solid $primary !important;
+  border-radius: 10px !important;
+  color: white !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  transition: 0.2s;
+
+  &:hover {
+    background: $primary !important;
+  }
+}
+
+/* 5. MAIN CONTENT & GRID (The "Fixed Grid" Fix) */
+.container {
+  @include container();
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.shopGrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 30px !important;
+}
+
+/* 6. CARDS */
+.productCard {
+  border: 1px solid $border;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: $primary;
+  }
+
+  &__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #000;
+  }
+
+  &__content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__price {
+    color: #818cf8;
+    font-weight: 700;
+    font-size: 18px;
+  }
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid $border;
+}
